@@ -4,7 +4,7 @@
 
 from setuptools import setup
 setup(name="guolei_py3_components",
-      version="1.01",
+      version="1.0.0",
       description="guolei_py3_components",
       url="https://github.com/guolei19850528/guolei_py3_components",
       author="guolei",
