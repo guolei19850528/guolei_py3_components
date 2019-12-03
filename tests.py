@@ -78,7 +78,6 @@ class WechatTest(unittest.TestCase):
         print("wechat test down by {start_time_str}".format(start_time_str=util.get_time_str()))
 
     def test_run(self):
-
         wechat_obj = wechat.Wehcat("wx41bd6621e194c939", "a3186dd5f20f045496fa49962d0df994")
         access_token=wechat_obj.get_access_token()
         print("access_token is {access_token}".format(access_token=access_token))
