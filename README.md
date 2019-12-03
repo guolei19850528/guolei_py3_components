@@ -1,9 +1,7 @@
 # guolei_py3_components
-a guolei python3 components
-#module
-##util
-a common util module
-#####example
+a guolei python3 components  
+---
+util
 ```
     from guolei_py3_components import util
     """
@@ -19,6 +17,7 @@ a common util module
     """
     get_uuid_str()
 ```
-##wechat
+wechat  
+---
 a wechat operation class module
-##
+
