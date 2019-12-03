@@ -52,7 +52,6 @@ def get_sha1_str(need_sha1_str=""):
     """
     get sha1 str
     :param need_sha1_str:str
-    需要进行加密的字符串
     :return:str
     """
     import hashlib
@@ -214,7 +213,6 @@ def get_time_diff_by_str(time_str1="", formatter1="%Y-%m-%d %H:%M:%S", time_str2
     """
     get time diff by str
     :param time_str1:str
-    日期字符串1
     :param formatter1:str
     :param time_str2:
     :param formatter2:str
@@ -225,7 +223,7 @@ def get_time_diff_by_str(time_str1="", formatter1="%Y-%m-%d %H:%M:%S", time_str2
 
 def get_day_seconds(days=1):
     """
-    get_days_seconds
+    get days seconds
     :param days:int
     :return:int
     """

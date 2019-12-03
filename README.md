@@ -1,22 +1,33 @@
 # guolei_py3_components
 a guolei python3 components  
-#util
+# util
+a common utile module
+```python
+  
 ```
-    from guolei_py3_components import util
-    """
-    get uuid str
-    use uuid4
-    :param option: int
-    if option is 1 0aa349e2-642c-4332-a996-f6bf4f7d49d4
-    if option is 2 {0aa349e2-642c-4332-a996-f6bf4f7d49d4}
-    if option is 3 [0aa349e2-642c-4332-a996-f6bf4f7d49d4]
-    if option is 4 (0aa349e2-642c-4332-a996-f6bf4f7d49d4)
-    if option is 5 0aa349e2642c4332a996f6bf4f7d49d4
-    :return:str
-    """
-    get_uuid_str()
-```
-
-#wechat  
+# wechat  
 a wechat operation class module
+```python
+    from guolei_py3_components import wechat
+    # init wechat class
+    wechat_obj = wechat.Wehcat("your appid", "your appsecret")
+    # get access token
+    access_token=wechat_obj.get_access_token()
+    # get js api ticket
+    js_api_ticket=wechat_obj.get_js_api_ticket(access_token)
+    
+    """
+    get signatures
+    :param js_api_ticket:
+    :param url:
+    :param type:
+    :return:dict
+    {
+        "nonce_str": "",
+        "signature": "",
+        "timestamp": ""
+    }
+    """    
+    wechat_obj.get_signatures(js_api_ticket="", url="", type="shar1")
+```
 

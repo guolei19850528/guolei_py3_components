@@ -69,7 +69,12 @@ class Wehcat:
         :param js_api_ticket:
         :param url:
         :param type:
-        :return:
+        :return:dict
+        {
+            "nonce_str": "",
+            "signature": "",
+            "timestamp": ""
+        }
         """
         nonce_str = get_random_str(64);
         timestamp = get_timestamp();
