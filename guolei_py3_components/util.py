@@ -21,6 +21,8 @@ def get_uuid_str(option=1):
     """
     import uuid
     uuid_str = str(uuid.uuid4())
+    if option not in [1, 2, 3, 4, 5]:
+        option = 1
     if option == 1:
         return uuid_str
     if option == 2:
@@ -175,36 +177,11 @@ def get_week_day_by_str(date_str="", monday_index=0, formatter="%Y-%m-%d"):
 
 def get_week_day_by_timestamp(timestamp=0, monday_index=0, formatter="%Y-%m-%d"):
     """
-    获取指定时间戳为星期几
-    :param date_str:str
-    日期字符串 默认为""
-    ""=当前日期
+    get week day by timestamp
+    :param timestamp:int current timestamp
     :param monday_index:int
-    星期一的索引 默认为0
     :param formatter:str
-    日期格式字符串 默认%Y-%m-%d 即"年-月-日"
     :return:int
-    mondy_index=0
-    星期一 0
-    星期二 1
-    星期三 2
-    星期四 3
-    星期五 4
-    星期六 5
-    星期日 6
-
-    mondy_index=1
-    星期一 1
-    星期二 2
-    星期三 3
-    星期四 4
-    星期五 5
-    星期六 6
-    星期日 7
-    :param timestamp:
-    :param monday_index:
-    :param formatter:
-    :return:
     """
     import time
     try:
@@ -235,16 +212,13 @@ def get_time_diff_tuple(timestamp1=0, timestamp2=0):
 
 def get_time_diff_by_str(time_str1="", formatter1="%Y-%m-%d %H:%M:%S", time_str2="", formatter2="%Y-%m-%d %H:%M:%S"):
     """
-    获取连个日期字符串的差
+    get time diff by str
     :param time_str1:str
     日期字符串1
     :param formatter1:str
-    日期格式字符串1 默认%Y-%m-%d %H:%M:%S 即"年-月-日 时:分:秒"
     :param time_str2:
     :param formatter2:str
-    日期格式字符串1 默认%Y-%m-%d %H:%M:%S 即"年-月-日 时:分:秒"
     :return:tuple
-    (日,时,分,秒)
     """
     return get_time_diff_tuple(get_timestamp(time_str1, formatter1), get_timestamp(time_str2, formatter2))
 
@@ -282,8 +256,8 @@ def is_leap_year(year=0):
 def get_month_max_days(year=0, month=0):
     """
     get month max days
-    :param year:int 年
-    :param month:int 月
+    :param year:int
+    :param month:int
     :return:int
     """
     if month in (1, 3, 5, 7, 8, 10, 12):

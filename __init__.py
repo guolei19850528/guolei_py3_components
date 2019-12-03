@@ -4,3 +4,6 @@
 
 def start():
     print("import guolei_py3_components successful")
+
+
+start()
