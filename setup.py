@@ -7,7 +7,7 @@ from setuptools import setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setup(name="guolei_py3_components",
-      version="1.0.3",
+      version="1.0.4",
       description="a python3 components by guolei",
       long_description=long_description,
       long_description_content_type="text/markdown",
@@ -17,6 +17,6 @@ setup(name="guolei_py3_components",
       license="MIT",
       keywors=["utils,wechat,database,pymysql,redis,requests"],
       packages=["guolei_py3_components"],
-      install_requires=["requests", "ipapi", "change_case", "PyMySQL", "redis"],
+      install_requires=["requests", "ipapi", "change_case", "PyMySQL", "redis","inflect"],
       python_requires='>=3.0',
       zip_safe=False)

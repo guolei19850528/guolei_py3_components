@@ -43,6 +43,16 @@ class DatabaseTest(unittest.TestCase):
         print("database test down by {start_time_str}".format(start_time_str=util.get_time_str()))
 
     def test_run(self):
+        print(util.get_random_str(64))
+        data = {
+            "id": None,
+            "aaa": "1",
+            "bbbb": "2"
+        }
+        fields = ["`{field}`".format(field=item[0]) for item in data.items()]
+        values = ["%({field})s".format(field=item[0]) for item in data.items()]
+        fields_str = ",".join(fields)
+        values_str = ",".join(values)
         # mysql_config = {
         #     "host": "loclhost",
         #     "port": 3306,
@@ -79,9 +89,9 @@ class WechatTest(unittest.TestCase):
 
     def test_run(self):
         wechat_obj = wechat.Wehcat("wx41bd6621e194c939", "a3186dd5f20f045496fa49962d0df994")
-        access_token=wechat_obj.get_access_token()
+        access_token = wechat_obj.get_access_token()
         print("access_token is {access_token}".format(access_token=access_token))
-        js_api_ticket=wechat_obj.get_js_api_ticket(access_token)
+        js_api_ticket = wechat_obj.get_js_api_ticket(access_token)
         print("js_api_ticket is {js_api_ticket}".format(js_api_ticket=js_api_ticket))
         print(wechat_obj.get_signatures(js_api_ticket))
         pass
@@ -90,7 +100,7 @@ class WechatTest(unittest.TestCase):
 if __name__ == "__main__":
     test_suite = unittest.TestSuite()
     # test_suite.addTest(UtilTest('test_run'))
-    # test_suite.addTest(DatabaseTest('test_run'))
-    test_suite.addTest(WechatTest('test_run'))
+    test_suite.addTest(DatabaseTest('test_run'))
+    # test_suite.addTest(WechatTest('test_run'))
     runner = unittest.TextTestRunner()
     runner.run(test_suite)
