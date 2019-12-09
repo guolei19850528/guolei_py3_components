@@ -38,7 +38,7 @@ def get_pymysql_connection(**kwargs):
 
 def get_strictredis_connection(**kwargs):
     """
-    get strictredis connection
+    get strict redis connection
     :param kwargs:
     :return:
     example
