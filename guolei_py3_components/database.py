@@ -103,7 +103,7 @@ class Paginator(object):
         current = int(self.current)
         pages = int(self.pages)
         next = current + 1
-        if (next > pages):
+        if next > pages:
             next = pages
         self._next = next
         return self._next
