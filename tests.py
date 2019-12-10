@@ -15,21 +15,7 @@ class UtilTest(unittest.TestCase):
         print("util test up by {start_time_str}".format(start_time_str=util.get_time_str()))
 
     def test_run(self):
-        print("uuid format 1 is {uuid}".format(uuid=util.get_uuid_str(1)))
-        print("uuid format 2 is {uuid}".format(uuid=util.get_uuid_str(2)))
-        print("uuid format 3 is {uuid}".format(uuid=util.get_uuid_str(3)))
-        print("uuid format 4 is {uuid}".format(uuid=util.get_uuid_str(4)))
-        print("uuid format 5 is {uuid}".format(uuid=util.get_uuid_str(5)))
-        print("platform name is {platform_name}".format(platform_name=util.get_platform_name()))
-        print("host name is {host_name}".format(host_name=util.get_host_name()))
-        print("intranet ip is {intranet_ip}".format(intranet_ip=util.get_intranet_ip()))
-        print("external network ip is {external_network_ip}".format(external_network_ip=util.get_external_network_ip()))
-        print("current timestamp is {timestamp}".format(timestamp=util.get_timestamp()))
-        print("2019-01-01 00:00:00 timestamp is {timestamp}".format(
-            timestamp=util.get_timestamp(time_str="2019-01-01", formatter="%Y-%m-%d")))
-        print("current time str is {time_str}".format(time_str=util.get_time_str()))
-        print("taobao ip data is {ip_data}".format(ip_data=taobao.get_ip_data(util.get_external_network_ip())))
-        print("current week day is {week_day}".format(week_day=util.get_week_day_by_timestamp(monday_index=1)))
+        pass
 
 
 class DatabaseTest(unittest.TestCase):
@@ -99,8 +85,11 @@ class WechatTest(unittest.TestCase):
 
 if __name__ == "__main__":
     test_suite = unittest.TestSuite()
-    # test_suite.addTest(UtilTest('test_run'))
-    test_suite.addTest(DatabaseTest('test_run'))
+    test_suite.addTest(UtilTest('test_run'))
+    # test_suite.addTest(DatabaseTest('test_run'))
     # test_suite.addTest(WechatTest('test_run'))
     runner = unittest.TextTestRunner()
     runner.run(test_suite)
+    import os
+
+    os._exit(0)

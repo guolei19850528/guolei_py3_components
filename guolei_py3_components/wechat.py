@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 import requests, json
-from .util import get_random_str, get_timestamp, get_md5_str, get_sha1_str
+from .util import get_random_str, get_timestamp, get_encrypt_str
 
 
 class Wehcat:
@@ -80,9 +80,9 @@ class Wehcat:
         timestamp = get_timestamp();
         str1 = "jsapi_ticket={js_api_ticket}&noncestr={nonce_str}&timestamp={timestamp}&url={url}".format(
             js_api_ticket=js_api_ticket, nonce_str=nonce_str, timestamp=timestamp, url=url)
-        signature = get_sha1_str(str1);
+        signature = get_encrypt_str("shar1", str1);
         if type == "md5":
-            signature = get_md5_str(str1)
+            signature = get_encrypt_str("md5", str1)
         return {
             "nonce_str": nonce_str,
             "signature": signature,
