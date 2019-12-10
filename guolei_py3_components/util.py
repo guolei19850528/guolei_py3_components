@@ -35,67 +35,96 @@ def get_uuid_str(option=1):
         return uuid_str.replace("-", "")
 
 
-def get_md5_str(need_md5_str=""):
+def get_encrypt_str(encrypt_type="md5", need_encrypt_str=""):
     """
-    get md5 str
-    :param need_md5_str:str
-    :return:str
-    """
-    import hashlib
-    hashlib_obj = hashlib.md5()
-    hashlib_obj.update(need_md5_str.encode("utf-8"))
-    md5_str = str(hashlib_obj.hexdigest())
-    return md5_str
-
-
-def get_sha1_str(need_sha1_str=""):
-    """
-    get sha1 str
-    :param need_sha1_str:str
-    :return:str
-    """
-    import hashlib
-    hashlib_obj = hashlib.sha1()
-    hashlib_obj.update(need_sha1_str.encode("utf-8"))
-    sha1_str = str(hashlib_obj.hexdigest())
-    return sha1_str
-
-
-def get_sha256_str(need_sha256_str=""):
-    """
-    get shar256 str
-    :param need_sha256_str:str
-    :return:str
+    get encrypt str
+    :param encrypt_type:
+    encrypt_name must in
+    [
+        md5
+        sha1,
+        sha224,
+        sha256,
+        sha384,
+        sha512,
+        blake2s,
+        blake2b,
+        sha3_224,
+        sha3_256,
+        sha3_384,
+        sha3_512,
+        shake_128,
+        shake_256
+    ]
+    :param need_encrypt_str: need encrypt_str
+    :return: encrypted str
+    demo
+    encrypted_str=get_encrypt_str(encrypt_type="md5", need_encrypt_str="123456")
+    more...
     """
     import hashlib
-    hashlib_obj = hashlib.sha256()
-    hashlib_obj.update(need_sha256_str.encode("utf-8"))
-    sha256_str = str(hashlib_obj.hexdigest())
-    return sha256_str
+    encrypted_str = hashlib.new(encrypt_type, need_encrypt_str.encode("utf-8")).hexdigest()
+    return encrypted_str
 
 
-def get_sha512_str(need_sha512_str=""):
+def call_str_to_encrypt(encrypt_type="md5"):
     """
-    get shar512 str
-    :param need_sha512_str:str
-    :return:str
+    call str to encrypt by decorator
+    :param encrypt_type: see get_encrypt_str
+    :return:
+    demo
+    @util.call_encrypt("md5")
+    def a():
+        return "123456"
+    print(a())
+    e10adc3949ba59abbe56e057f20f883e
     """
-    import hashlib
-    hashlib_obj = hashlib.sha512()
-    hashlib_obj.update(need_sha512_str.encode("utf-8"))
-    sha512_str = str(hashlib_obj.hexdigest())
-    return sha512_str
+
+    def decorator_func(func):
+        def wrapper_func():
+            need_encrypt_str = str(func())
+            return get_encrypt_str(encrypt_type=encrypt_type, need_encrypt_str=need_encrypt_str)
+
+        return wrapper_func
+
+    return decorator_func
 
 
-def get_random_str(length=0, chars=string.ascii_letters + string.digits):
+def call_str_to_upper(func):
+    """
+    call str to upper by decorator
+    :param func:
+    :return:
+    """
+
+    def decorator_func():
+        return str(func()).upper()
+
+    return decorator_func
+
+
+def call_str_to_lower(func):
+    """
+    call str to lower by decorator
+    :param func:
+    :return:
+    """
+
+    def decorator_func():
+        return str(func()).lower()
+
+    return decorator_func
+
+
+def get_random_str(length=0, strings=string.ascii_letters + string.digits):
     """
     get random str
     :param length:int
-    :param chars: str
+    :param strings: str
     default string.ascii_letters + string.digits
     :return: str
     """
-    return "".join([chars[get_random_choice(len(chars))] for i in range(length)])
+    return "".join([strings[get_random_choice(len(strings))] for i in range(length)])
 
 
 def get_random_choice(max=1):
