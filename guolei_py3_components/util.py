@@ -81,8 +81,8 @@ def call_str_to_encrypt(encrypt_type="md5"):
     """
 
     def decorator_func(func):
-        def wrapper_func():
-            need_encrypt_str = str(func())
+        def wrapper_func(*args, **kw):
+            need_encrypt_str = str(func(*args, **kw))
             return get_encrypt_str(encrypt_type=encrypt_type, need_encrypt_str=need_encrypt_str)
 
         return wrapper_func

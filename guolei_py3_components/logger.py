@@ -41,7 +41,8 @@ def get_logging_logger_obj(logger_name="guolei_py3_components", logging_level="i
             map(str, list(time_struct)))
         if not isinstance(logging_dir_path, str) or len(logging_dir_path) == 0:
             log_dir_path = os.path.join(os.getcwd(), "runtime", "logs", logger_name, year_str,
-                                        "{year_str}{month_str}{month_day_str}".format(year_str=year_str, month_str=month_str,
+                                        "{year_str}{month_str}{month_day_str}".format(year_str=year_str,
+                                                                                      month_str=month_str,
                                                                                       month_day_str=month_day_str),
                                         logging_level)
         try:
@@ -59,7 +60,7 @@ def get_logging_logger_obj(logger_name="guolei_py3_components", logging_level="i
     return logging_logger_obj
 
 
-def call_logging_logger_log(logging_logger_obj, attr="info"):
+def call_logging_logger_log(logging_logger_obj, attr="info",prefix=""):
     """
     call logging logger log by decorator
     :param logging_logger_obj:
@@ -68,13 +69,11 @@ def call_logging_logger_log(logging_logger_obj, attr="info"):
     """
 
     def decorator_func(func):
-        def wrapper_func():
-            need_logger_str = str(func())
+        def wrapper_func(*args, **kw):
             if hasattr(logging_logger_obj, attr):
                 call_attr = getattr(logging_logger_obj, attr)
-                print(type(call_attr))
-                return call_attr(need_logger_str)
-
+                call_attr({"prefix":prefix,"data":func(*args, **kw)})
+                return func(*args, **kw)
         return wrapper_func
 
     return decorator_func

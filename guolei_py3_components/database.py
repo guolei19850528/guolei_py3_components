@@ -36,6 +36,66 @@ def get_pymysql_connection(**kwargs):
         return False
 
 
+def call_pymysql_execute(pymysql_conn_obj):
+    def decorator_func(func):
+        def wrapper_func(*args, **kw):
+            query, args = func(*args, **kw)
+            with pymysql_conn_obj.cursor() as cursor_obj:
+                try:
+                    cursor_obj.execute(query, args)
+                    pymysql_conn_obj.commit()
+                    return True, cursor_obj.rowcount, cursor_obj.lastrowid
+                except Exception as error:
+                    pymysql_conn_obj.rollback()
+                    return False, -1, -1
+                finally:
+                    cursor_obj.close()
+
+        return wrapper_func
+
+    return decorator_func
+
+
+def call_pymysql_find(pymysql_conn_obj):
+    def decorator_func(func):
+        def wrapper_func(*args, **kw):
+            query, args = func(*args, **kw)
+            with pymysql_conn_obj.cursor() as cursor_obj:
+                try:
+                    cursor_obj.execute(query, args)
+                    pymysql_conn_obj.commit()
+                    return True, cursor_obj.fetchall()
+                except Exception as error:
+                    pymysql_conn_obj.rollback()
+                    return False, []
+                finally:
+                    cursor_obj.close()
+
+        return wrapper_func
+
+    return decorator_func
+
+
+def call_pymysql_find_first(pymysql_conn_obj):
+    def decorator_func(func):
+        def wrapper_func(*args, **kw):
+            query, args = func(*args, **kw)
+            with pymysql_conn_obj.cursor() as cursor_obj:
+                try:
+                    cursor_obj.execute(query, args)
+                    pymysql_conn_obj.commit()
+                    return True, cursor_obj.fetchone()
+                except Exception as error:
+                    pymysql_conn_obj.rollback()
+                    return False, {}
+                finally:
+                    cursor_obj.close()
+
+        return wrapper_func
+
+    return decorator_func
+
+
 def get_strictredis_connection(**kwargs):
     """
     get strict redis connection
