@@ -89,7 +89,6 @@ pymysql_conn_config = {
     "charset": "utf8",
 }
 pymysql_conn_obj = database.get_pymysql_connection(**pymysql_conn_config)
-pymysql_conn_obj = database.get_pymysql_connection(**pymysql_conn_config)
 
 
 @database.call_pymysql_find(pymysql_conn_obj)
