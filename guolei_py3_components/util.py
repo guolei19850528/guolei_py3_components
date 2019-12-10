@@ -39,7 +39,7 @@ def get_encrypt_str(encrypt_type="md5", need_encrypt_str=""):
     """
     get encrypt str
     :param encrypt_type:
-    encrypt_name must in
+    encrypt_type must in
     [
         md5
         sha1,
@@ -58,7 +58,7 @@ def get_encrypt_str(encrypt_type="md5", need_encrypt_str=""):
     ]
     :param need_encrypt_str: need encrypt_str
     :return: encrypted str
-    demo
+    example
     encrypted_str=get_encrypt_str(encrypt_type="md5", need_encrypt_str="123456")
     more...
     """
@@ -72,7 +72,7 @@ def call_str_to_encrypt(encrypt_type="md5"):
     call str to encrypt by decorator
     :param encrypt_type: see get_encrypt_str
     :return:
-    demo
+    example
     @util.call_encrypt("md5")
     def a():
         return "123456"
@@ -81,8 +81,8 @@ def call_str_to_encrypt(encrypt_type="md5"):
     """
 
     def decorator_func(func):
-        def wrapper_func(*args, **kw):
-            need_encrypt_str = str(func(*args, **kw))
+        def wrapper_func(*args, **kwargs):
+            need_encrypt_str = str(func(*args, **kwargs))
             return get_encrypt_str(encrypt_type=encrypt_type, need_encrypt_str=need_encrypt_str)
 
         return wrapper_func

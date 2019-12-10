@@ -18,7 +18,8 @@ def get_pymysql_connection(**kwargs):
     :param kwargs:
     :return:
     example
-    {
+    from guolei_py3_components import database
+    conn_config={
         "host": "localhost",
         "port": 3306,
         "user": "root",
@@ -27,6 +28,8 @@ def get_pymysql_connection(**kwargs):
         "charset": "utf8",
         "cursorclass": pymysql.cursors.DictCursor
     },
+    pymysql_conn_obj=database.get_pymysql_connection(**conn_config)
+    use pymysql_conn_obj code ...
     """
     try:
         if "cursorclass" not in kwargs.keys():
@@ -37,9 +40,26 @@ def get_pymysql_connection(**kwargs):
 
 
 def call_pymysql_execute(pymysql_conn_obj):
+    """
+    call pymysql execute by decorator
+    :param pymysql_conn_obj:
+    :return: (query_status:bool,affected_rows:int,lastrowid:int)
+    example
+    from guolei_py3_components import database
+    pymysql_conn_config={}
+    pymysql_conn_obj=database.get_pymysql_connection(**pymysql_conn_config)
+
+    @database.call_pymysql_execute(pymysql_conn_obj)
+    def pymysql_execute():
+        query="insert into tables...;"
+        args={}
+        return query,args
+    print(pymysql_execute())
+    """
+
     def decorator_func(func):
-        def wrapper_func(*args, **kw):
-            query, args = func(*args, **kw)
+        def wrapper_func(*args, **kwargs):
+            query, args = func(*args, **kwargs)
             with pymysql_conn_obj.cursor() as cursor_obj:
                 try:
                     cursor_obj.execute(query, args)
@@ -57,9 +77,26 @@ def call_pymysql_execute(pymysql_conn_obj):
 
 
 def call_pymysql_find(pymysql_conn_obj):
+    """
+    call pymysql find by decorator
+    :param pymysql_conn_obj:
+    :return: (query_status:bool,data:list)
+    example
+    from guolei_py3_components import database
+    pymysql_conn_config={}
+    pymysql_conn_obj=database.get_pymysql_connection(**pymysql_conn_config)
+
+    @database.call_pymysql_find(pymysql_conn_obj)
+    def pymysql_find():
+        query="select * from table;"
+        args={}
+        return query,args
+    print(pymysql_find())
+    """
+
     def decorator_func(func):
-        def wrapper_func(*args, **kw):
-            query, args = func(*args, **kw)
+        def wrapper_func(*args, **kwargs):
+            query, args = func(*args, **kwargs)
             with pymysql_conn_obj.cursor() as cursor_obj:
                 try:
                     cursor_obj.execute(query, args)
@@ -77,9 +114,27 @@ def call_pymysql_find(pymysql_conn_obj):
 
 
 def call_pymysql_find_first(pymysql_conn_obj):
+    """
+    call pymysql find first by decorator
+    :param pymysql_conn_obj:
+    :return: (query_status:bool,data:dict)
+    example
+    from guolei_py3_components import database
+    pymysql_conn_config={}
+    pymysql_conn_obj=database.get_pymysql_connection(**pymysql_conn_config)
+
+    @database.call_pymysql_find_first(pymysql_conn_obj)
+    def pymysql_find_first():
+        # You'd better add limit 1 at the end of SQL
+        query="select * from table limit 1;"
+        args={}
+        return query,args
+    print(pymysql_find_first())
+    """
+
     def decorator_func(func):
-        def wrapper_func(*args, **kw):
-            query, args = func(*args, **kw)
+        def wrapper_func(*args, **kwargs):
+            query, args = func(*args, **kwargs)
             with pymysql_conn_obj.cursor() as cursor_obj:
                 try:
                     cursor_obj.execute(query, args)
@@ -102,17 +157,52 @@ def get_strictredis_connection(**kwargs):
     :param kwargs:
     :return:
     example
-    {
+    from guolei_py3_components import database
+    conn_config={
         "host": "localhost",
         "port": 6379,
         "db": 0,
         "password": '123456'
     },
+    strictredis_conn_obj=database.get_strictredis_connection(**conn_config)
+    use strictredis_conn_obj code ...
     """
     try:
         return redis.StrictRedis(**kwargs)
     except Exception as error:
         return False
+
+
+def call_strictredis_command(strictredis_conn_obj, attr):
+    """
+    call strictredis command by decorator
+    :param strictredis_conn_obj:
+    :param attr: redis command str
+    :return:
+    example
+    from guolei_py3_components import database
+    conn_config={...},
+    strictredis_conn_obj=database.get_strictredis_connection(**conn_config)
+
+    @call_strictredis_command(strictredis_conn_obj,get)
+    def strictredis_command():
+        return (args),{..kwargs}
+    """
+
+    def decorator_func(func):
+        def wrapper_func(*args, **kwargs):
+            if hasattr(strictredis_conn_obj, attr):
+                call_attr = getattr(strictredis_conn_obj, attr)
+            args, kwargs = func(*args, **kwargs)
+            if isinstance(args, tuple) and len(args):
+                return call_attr(*args)
+            elif isinstance(kwargs, dict) and len(kwargs):
+                return call_attr(**kwargs)
+            raise TypeError("command error")
+
+        return wrapper_func
+
+    return decorator_func
 
 
 class Paginator(object):

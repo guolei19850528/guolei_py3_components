@@ -2,15 +2,15 @@
 # -*- coding: UTF-8 -*-
 
 
-def get_logging_logger_obj(logger_name="guolei_py3_components", logging_level="info", logging_dir_path="",
-                           is_save_file=False):
+def get_logging_logger(logger_name="guolei_py3_components", logging_level="info", logging_dir_path="",
+                       is_save_file=False):
     """
     get logging logger obj
     :param logger_name:str
     :param logging_level:str
     debug,info,warning,error,critical,warn
     :param logging_dir_path:str
-    default os.getcwd()/runtime/logs/logger_name/year/month/day/hour/%Y-%m-%d%H.log
+    default os.getcwd()/runtime/logs/logger_name/year/month/day/hour/%Y%m%d-%H.log
     :param is_save_file:bool
     if true save file
     :return:logging logger object
@@ -60,20 +60,28 @@ def get_logging_logger_obj(logger_name="guolei_py3_components", logging_level="i
     return logging_logger_obj
 
 
-def call_logging_logger_log(logging_logger_obj, attr="info",prefix=""):
+def call_logging_logger_log(logging_logger_obj, attr="info", prefix=""):
     """
     call logging logger log by decorator
     :param logging_logger_obj:
     :param attr:
+    :param prefix:
     :return:
+    example
+    from guolei_py3_components import logger
+    logging_logger_obj = logger.get_logging_logger(is_save_file=True)
+    @logger.call_logging_logger_log(logging_logger_obj,attr,prefix)
+    def a():
+        return ""
     """
 
     def decorator_func(func):
-        def wrapper_func(*args, **kw):
+        def wrapper_func(*args, **kwargs):
             if hasattr(logging_logger_obj, attr):
                 call_attr = getattr(logging_logger_obj, attr)
-                call_attr({"prefix":prefix,"data":func(*args, **kw)})
-                return func(*args, **kw)
+                call_attr({"prefix": prefix, "data": func(*args, **kwargs)})
+                return func(*args, **kwargs)
+
         return wrapper_func
 
     return decorator_func
