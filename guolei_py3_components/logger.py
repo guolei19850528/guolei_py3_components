@@ -40,14 +40,15 @@ def get_logging_logger_obj(logger_name="guolei_py3_components", logging_level="i
         year_str, month_str, month_day_str, hour_str, minute_str, second_str, _, _, _ = tuple(
             map(str, list(time_struct)))
         if not isinstance(logging_dir_path, str) or len(logging_dir_path) == 0:
-            log_dir_path = os.path.join(os.getcwd(), "runtime", "logs", logger_name, year_str, month_str,
-                                        month_day_str,
-                                        hour_str)
+            log_dir_path = os.path.join(os.getcwd(), "runtime", "logs", logger_name, year_str,
+                                        "{year_str}{month_str}{month_day_str}".format(year_str=year_str, month_str=month_str,
+                                                                                      month_day_str=month_day_str),
+                                        logging_level)
         try:
             os.makedirs(log_dir_path)
         except:
             pass
-        log_file_name = time.strftime("%Y%m%d%H", time.localtime(time.time())) + ".log"
+        log_file_name = time.strftime("%Y%m%d-%H", time.localtime(time.time())) + ".log"
         log_file_path = os.path.join(log_dir_path, log_file_name)
         file_handler = logging.FileHandler(filename=log_file_path, encoding="utf8")
         file_handler.formatter = logging_formatter
@@ -56,3 +57,24 @@ def get_logging_logger_obj(logger_name="guolei_py3_components", logging_level="i
     console_handler.formatter = logging_formatter
     logging_logger_obj.addHandler(console_handler)
     return logging_logger_obj
+
+
+def call_logging_logger_log(logging_logger_obj, attr="info"):
+    """
+    call logging logger log by decorator
+    :param logging_logger_obj:
+    :param attr:
+    :return:
+    """
+
+    def decorator_func(func):
+        def wrapper_func():
+            need_logger_str = str(func())
+            if hasattr(logging_logger_obj, attr):
+                call_attr = getattr(logging_logger_obj, attr)
+                print(type(call_attr))
+                return call_attr(need_logger_str)
+
+        return wrapper_func
+
+    return decorator_func
