@@ -43,8 +43,7 @@ def get_logging_logger(logger_name="guolei_py3_components", logging_level="info"
             log_dir_path = os.path.join(os.getcwd(), "runtime", "logs", logger_name, year_str,
                                         "{year_str}{month_str}{month_day_str}".format(year_str=year_str,
                                                                                       month_str=month_str,
-                                                                                      month_day_str=month_day_str),
-                                        logging_level)
+                                                                                      month_day_str=month_day_str))
         try:
             os.makedirs(log_dir_path)
         except:
