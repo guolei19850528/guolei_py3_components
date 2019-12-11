@@ -7,7 +7,7 @@ from setuptools import setup
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setup(name="guolei_py3_components",
-      version="1.0.7",
+      version="1.0.8",
       description="a python3 components by guolei",
       long_description=long_description,
       long_description_content_type="text/markdown",
