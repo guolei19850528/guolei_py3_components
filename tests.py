@@ -15,7 +15,40 @@ class UtilTest(unittest.TestCase):
         print("util test up by {start_time_str}".format(start_time_str=util.get_time_str()))
 
     def test_run(self):
+        logging_logger_obj = logger.get_logging_logger(is_save_file=True)
+        pymysql_conn_config = {
+            "host": "121.42.166.250",
+            "port": 3306,
+            "user": "luis",
+            "passwd": "123456",
+            "db": "polyrich",
+            "charset": "utf8",
 
+        }
+        pymysql_conn_obj = database.get_pymysql_connection(**pymysql_conn_config)
+
+        @logger.call_logging_logger_log(logging_logger_obj, "info", "接收返回值")
+        @database.call_pymysql_find(pymysql_conn_obj)
+        @logger.call_logging_logger_log(logging_logger_obj, "info", "接收返回值1")
+        def a():
+            query = "select * from guolei_temp_201904191327;"
+            args = None
+            return query, args
+
+        print(a())
+        redis_conn_config = {
+            "host": "121.42.166.250",
+            "port": 6379,
+            "db": 0,
+            "password": 'abcd@123'
+        }
+        strictredis_conn_obj = database.get_strictredis_connection(**redis_conn_config)
+
+        @database.call_strictredis_command(strictredis_conn_obj, attr="hgetall")
+        def redis_test():
+            return None, {"name": "appinfo_52"}
+
+        print(redis_test())
         pass
 
 
@@ -30,22 +63,22 @@ class DatabaseTest(unittest.TestCase):
         print("database test down by {start_time_str}".format(start_time_str=util.get_time_str()))
 
     def test_run(self):
-        print(util.get_random_str(64))
-        data = {
-            "id": None,
-            "aaa": "1",
-            "bbbb": "2"
-        }
-        fields = ["`{field}`".format(field=item[0]) for item in data.items()]
-        values = ["%({field})s".format(field=item[0]) for item in data.items()]
-        fields_str = ",".join(fields)
-        values_str = ",".join(values)
+        # print(util.get_random_str(64))
+        # data = {
+        #     "id": None,
+        #     "aaa": "1",
+        #     "bbbb": "2"
+        # }
+        # fields = ["`{field}`".format(field=item[0]) for item in data.items()]
+        # values = ["%({field})s".format(field=item[0]) for item in data.items()]
+        # fields_str = ",".join(fields)
+        # values_str = ",".join(values)
         # mysql_config = {
-        #     "host": "loclhost",
+        #     "host": "121.42.166.250",
         #     "port": 3306,
-        #     "user": "root",
+        #     "user": "luis",
         #     "passwd": "123456",
-        #     "db": "test",
+        #     "db": "polyrich",
         #     "charset": "utf8",
         #     "cursorclass": pymysql.cursors.DictCursor
         # }
