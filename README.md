@@ -174,7 +174,7 @@ from guolei_py3_components.mail import Mail
 mail_obj = Mail()
 mail_obj.smtp_host = "smtp.exmail.qq.com"
 mail_obj.smtp_port = 465
-mail_obj.sender_name = "<sender<sender@qq.com>"
+mail_obj.sender_name = "sender<sender@qq.com>"
 mail_obj.sender_account = "sender@qq.com"
 mail_obj.sender_password = "123456"
 mail_obj.to_addresses = ["receiver<receiver@qq.com>"]

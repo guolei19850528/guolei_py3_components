@@ -15,40 +15,27 @@ class UtilTest(unittest.TestCase):
         print("util test up by {start_time_str}".format(start_time_str=util.get_time_str()))
 
     def test_run(self):
+        import os
         logging_logger_obj = logger.get_logging_logger(is_save_file=True)
-        pymysql_conn_config = {
-            "host": "121.42.166.250",
-            "port": 3306,
-            "user": "luis",
-            "passwd": "123456",
-            "db": "polyrich",
-            "charset": "utf8",
 
-        }
-        pymysql_conn_obj = database.get_pymysql_connection(**pymysql_conn_config)
+        from guolei_py3_components.mail import Mail
+        mail_obj = Mail()
+        mail_obj.smtp_host = "smtp.exmail.qq.com"
+        mail_obj.smtp_port = 465
+        mail_obj.sender_name = "郭磊<174000902@qq.com>"
+        mail_obj.sender_account = "guolei@ihmedia.com.cn"
+        mail_obj.sender_password = "BvxjBcUaMydne7gp"
+        mail_obj.to_addresses = ["guolei_qq<174000902@qq.com>"]
+        mail_obj.cc_addresses = []
+        mail_obj.bcc_addresses = []
+        attachments=[
+            {
+                "name":"郭磊发送附件.txt",
+                "path":os.path.join(os.getcwd(),"runtime","a.txt")
+            }
+        ]
+        print(mail_obj.smtp_ssl_send_mail("郭磊test", "test content",attachments))
 
-        @logger.call_logging_logger_log(logging_logger_obj, "info", "接收返回值")
-        @database.call_pymysql_find(pymysql_conn_obj)
-        @logger.call_logging_logger_log(logging_logger_obj, "info", "接收返回值1")
-        def a():
-            query = "select * from guolei_temp_201904191327;"
-            args = None
-            return query, args
-
-        print(a())
-        redis_conn_config = {
-            "host": "121.42.166.250",
-            "port": 6379,
-            "db": 0,
-            "password": 'abcd@123'
-        }
-        strictredis_conn_obj = database.get_strictredis_connection(**redis_conn_config)
-
-        @database.call_strictredis_command(strictredis_conn_obj, attr="hgetall")
-        def redis_test():
-            return None, {"name": "appinfo_52"}
-
-        print(redis_test())
         pass
 
 
