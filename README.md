@@ -167,6 +167,27 @@ def a():
     return ""
 
 ```
+## mail
+```python
+from guolei_py3_components.mail import Mail
+
+mail_obj = Mail()
+mail_obj.smtp_host = "smtp.exmail.qq.com"
+mail_obj.smtp_port = 465
+mail_obj.sender_name = "<sender<sender@qq.com>"
+mail_obj.sender_account = "sender@qq.com"
+mail_obj.sender_password = "123456"
+mail_obj.to_addresses = ["receiver<receiver@qq.com>"]
+mail_obj.cc_addresses = []
+mail_obj.bcc_addresses = []
+attachments = [
+    {
+        "name": "attachment.txt",
+        "path": "/home/attachment.txt"
+    }
+]
+mail_obj.smtp_ssl_send_mail("subject", "message", attachments)
+```
 ## other
 other component developing...
 
