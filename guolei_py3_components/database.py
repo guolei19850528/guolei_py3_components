@@ -76,6 +76,45 @@ def call_pymysql_execute(pymysql_conn_obj):
     return decorator_func
 
 
+def call_pymysql_execute_by_transaction(pymysql_conn_obj):
+    """
+    call pymysql execute by decorator
+    :param pymysql_conn_obj:
+    :return: (query_status:bool,affected_rows:int,lastrowid:int)
+    example
+    from guolei_py3_components import database
+    pymysql_conn_config={}
+    pymysql_conn_obj=database.get_pymysql_connection(**pymysql_conn_config)
+
+    @database.call_pymysql_execute_by_transaction(pymysql_conn_obj)
+    def pymysql_execute_by_transaction():
+        queries=["insert into tables...;"]
+        arguments=[{}]
+        return queries,arguments
+    print(pymysql_execute())
+    """
+
+    def decorator_func(func):
+        def wrapper_func(*args, **kwargs):
+            queries, arguments = func(*args, **kwargs)
+            with pymysql_conn_obj.cursor() as cursor_obj:
+                try:
+                    pymysql_conn_obj.begin()
+                    for query, args in queries, arguments:
+                        cursor_obj.execute(query, args)
+                    pymysql_conn_obj.commit()
+                    return True
+                except Exception as error:
+                    pymysql_conn_obj.rollback()
+                    return False
+                finally:
+                    cursor_obj.close()
+
+        return wrapper_func
+
+    return decorator_func
+
+
 def call_pymysql_find(pymysql_conn_obj):
     """
     call pymysql find by decorator
