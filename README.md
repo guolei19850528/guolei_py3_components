@@ -1,5 +1,7 @@
 # guolei_py3_components
 ## a python3 components by guolei  
+## install
+## pip install guolei_py3_components
 # util
 a common util module
 ```python
