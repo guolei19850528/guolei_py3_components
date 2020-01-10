@@ -8,11 +8,13 @@ import unittest
 class UtilTest(unittest.TestCase):
     def tearDown(self) -> None:
         super().tearDown()
-        print("util test down by {start_time_str}".format(start_time_str=util.get_time_str()))
+        print("util test down by {start_time_str}".format(
+            start_time_str=util.get_time_str()))
 
     def setUp(self) -> None:
         super().setUp()
-        print("util test up by {start_time_str}".format(start_time_str=util.get_time_str()))
+        print("util test up by {start_time_str}".format(
+            start_time_str=util.get_time_str()))
 
     def test_run(self):
         import os
@@ -28,13 +30,14 @@ class UtilTest(unittest.TestCase):
         mail_obj.to_addresses = ["guolei_qq<174000902@qq.com>"]
         mail_obj.cc_addresses = []
         mail_obj.bcc_addresses = []
-        attachments=[
+        attachments = [
             {
-                "name":"郭磊发送附件.txt",
-                "path":os.path.join(os.getcwd(),"runtime","a.txt")
+                "name": "郭磊发送附件.txt",
+                "path": os.path.join(os.getcwd(), "runtime", "a.txt")
             }
         ]
-        print(mail_obj.smtp_ssl_send_mail("郭磊test", "test content",attachments))
+        print(mail_obj.smtp_ssl_send_mail(
+            "郭磊test", "test content", attachments))
 
         pass
 
@@ -43,11 +46,13 @@ class DatabaseTest(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        print("database test up by {start_time_str}".format(start_time_str=util.get_time_str()))
+        print("database test up by {start_time_str}".format(
+            start_time_str=util.get_time_str()))
 
     def tearDown(self) -> None:
         super().tearDown()
-        print("database test down by {start_time_str}".format(start_time_str=util.get_time_str()))
+        print("database test down by {start_time_str}".format(
+            start_time_str=util.get_time_str()))
 
     def test_run(self):
         # print(util.get_random_str(64))
@@ -88,18 +93,23 @@ class WechatTest(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        print("wechat test up by {start_time_str}".format(start_time_str=util.get_time_str()))
+        print("wechat test up by {start_time_str}".format(
+            start_time_str=util.get_time_str()))
 
     def tearDown(self) -> None:
         super().tearDown()
-        print("wechat test down by {start_time_str}".format(start_time_str=util.get_time_str()))
+        print("wechat test down by {start_time_str}".format(
+            start_time_str=util.get_time_str()))
 
     def test_run(self):
-        wechat_obj = wechat.Wehcat("wx41bd6621e194c939", "a3186dd5f20f045496fa49962d0df994")
+        wechat_obj = wechat.Wehcat(
+            "wx41bd6621e194c939", "a3186dd5f20f045496fa49962d0df994")
         access_token = wechat_obj.get_access_token()
-        print("access_token is {access_token}".format(access_token=access_token))
+        print("access_token is {access_token}".format(
+            access_token=access_token))
         js_api_ticket = wechat_obj.get_js_api_ticket(access_token)
-        print("js_api_ticket is {js_api_ticket}".format(js_api_ticket=js_api_ticket))
+        print("js_api_ticket is {js_api_ticket}".format(
+            js_api_ticket=js_api_ticket))
         print(wechat_obj.get_signatures(js_api_ticket))
         pass
 
